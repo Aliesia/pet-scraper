@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-var webscrapping = async function() {
+const webscraping = async function(clanURL, warURL) {
 
 	const browser = await puppeteer.launch({
 		headless: true,
@@ -9,9 +9,6 @@ var webscrapping = async function() {
 	});
 
 	const page = await browser.newPage();
-
-	const clanURL = 'https://royaleapi.com/clan/89VLQR0';
-	const warURL = 'https://royaleapi.com/clan/89VLQR0/war/analytics';
 
 	async function getClanMembers() {
 		await page.goto(clanURL);
@@ -60,11 +57,11 @@ var webscrapping = async function() {
 			return data;
 			});
 	}
-
+	let clanMembers, warData;
+	
 	try {
-		let clanMembers = await getClanMembers();
-		let warData = await getWarData();
-
+		clanMembers = await getClanMembers();
+		warData = await getWarData();
 		clanMembers.forEach(member => {
 			member['warInfo'] = warData[member.tag];	
 		});
@@ -74,7 +71,8 @@ var webscrapping = async function() {
 	} finally {
 		browser.close();
 	}
-
+	
+	return clanMembers;
 };
 
-webscrapping();
+module.exports = webscraping;
