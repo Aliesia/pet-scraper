@@ -1,7 +1,6 @@
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 const webscraping = async function(clanURL, warURL) {
-
 	const browser = await puppeteer.launch({
 		headless: true,
 		args :[
@@ -16,6 +15,7 @@ const webscraping = async function(clanURL, warURL) {
 		return await page.evaluate(() => {
 			let data = [];
 			let members = document.querySelectorAll('#roster > tbody > tr');
+			
 			members.forEach(element => {
 				let clanMember = {
 					name: element.querySelector('td:nth-child(2) > a').firstChild.nodeValue.trim(),
@@ -75,4 +75,4 @@ const webscraping = async function(clanURL, warURL) {
 	return clanMembers;
 };
 
-module.exports = webscraping;
+export default webscraping;

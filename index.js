@@ -1,6 +1,6 @@
-const {clanURL, warURL} = require('./data');
-const webscraping = require('./webscraping');
-const compareAndSaveResults = require('./resultAnalysis');
+import {clanURL, warURL } from './data.js';
+import webscraping from './webscraping.js';
+import compareAndSaveResults from './resultAnalysis.js';
 
 function handle() {
 	return webscraping(clanURL, warURL)
