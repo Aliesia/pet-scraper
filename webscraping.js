@@ -1,21 +1,19 @@
 import puppeteer from 'puppeteer';
 
-const webscraping = async function(clanURL, warURL) {
+const webscraping = async function (clanURL, warURL) {
 	const browser = await puppeteer.launch({
-		headless: true,
-		args :[
-		]
+		headless: true
 	});
 
 	const page = await browser.newPage();
 
 	async function getClanMembers() {
 		await page.goto(clanURL);
-		
+
 		return await page.evaluate(() => {
 			let data = [];
 			let members = document.querySelectorAll('#roster > tbody > tr');
-			
+
 			members.forEach(element => {
 				let clanMember = {
 					name: element.querySelector('td:nth-child(2) > a').firstChild.nodeValue.trim(),
@@ -30,7 +28,7 @@ const webscraping = async function(clanURL, warURL) {
 			})
 
 			return data;
-			});
+		});
 	}
 	async function getWarData() {
 		await page.goto(warURL);
@@ -40,8 +38,8 @@ const webscraping = async function(clanURL, warURL) {
 			let members = document.querySelectorAll('.war_table_wrapper tbody > tr + .member_row');
 			members.forEach(element => {
 				let warsArray = {};
-				for (let i = 1; i <= 10; i++) { 
-					warsArray[i] = element.querySelector('td:nth-child(' + (i + 4) +')').getAttribute('data-sort-value');
+				for (let i = 1; i <= 10; i++) {
+					warsArray[i] = element.querySelector('td:nth-child(' + (i + 4) + ')').getAttribute('data-sort-value');
 				}
 
 				let clanMember = {
@@ -55,15 +53,15 @@ const webscraping = async function(clanURL, warURL) {
 			})
 
 			return data;
-			});
+		});
 	}
 	let clanMembers, warData;
-	
+
 	try {
 		clanMembers = await getClanMembers();
 		warData = await getWarData();
 		clanMembers.forEach(member => {
-			member['warInfo'] = warData[member.tag];	
+			member['warInfo'] = warData[member.tag];
 		});
 
 	} catch (e) {
@@ -71,7 +69,7 @@ const webscraping = async function(clanURL, warURL) {
 	} finally {
 		browser.close();
 	}
-	
+
 	return clanMembers;
 };
 

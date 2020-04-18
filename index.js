@@ -1,4 +1,4 @@
-import {clanURL, warURL } from './data.js';
+import { clanURL, warURL } from './data.js';
 import webscraping from './webscraping.js';
 import compareAndSaveResults from './resultAnalysis.js';
 

@@ -8,7 +8,6 @@ mongoose.connect(MONGOURI, { useNewUrlParser: true, useUnifiedTopology: true })
 const compareAndSaveResults = dataObj => {
     try {
         mongoose.disconnect();
-
     } catch (err) {
         console.error(err);
     }
