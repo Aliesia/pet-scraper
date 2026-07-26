@@ -2,7 +2,7 @@ import { MONGOURI } from './data.js';
 import mongoose from 'mongoose';
 import memberModel from './models/member.js';
 
-mongoose.connect(MONGOURI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGOURI)
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.log(err));
 
